@@ -18,6 +18,9 @@ namespace OnlyVacancyApp.Services
         }
         public async Task ImportExcelAsync(string fileName)
         {
+            if (String.IsNullOrEmpty(fileName))
+                throw new BadRequestException("Некорректный параметр");
+
             var filePath = $"{Directory.GetCurrentDirectory()}{@"\files"}" + "\\" + fileName;
             FileInfo fileInfo = new FileInfo(filePath);
 

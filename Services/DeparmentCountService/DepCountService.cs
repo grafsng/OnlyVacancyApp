@@ -18,14 +18,17 @@ namespace OnlyVacancyApp.Services
         }
         public async Task<DepartmentCountInfo> GetInfoAsync(string department)
         {
+            if (String.IsNullOrEmpty(department))
+                throw new BadRequestException("Некорректный параметр");
+
             DepartmentCountInfo result = new DepartmentCountInfo();
             var resultList = await _db.OrgStructures.Where(x => x.Department == department).ToListAsync();
 
-            if (resultList.Any())
-            {
-                result.PositinonsNumber = resultList.Select(x => x.Position).Distinct().Count();
-                result.EmployeesNumber = resultList.Select(x => x.User).Distinct().Count();
-            }
+            if (!resultList.Any())
+                throw new NotFoundException("Информация не найдена");
+
+            result.PositinonsNumber = resultList.Select(x => x.Position).Distinct().Count();
+            result.EmployeesNumber = resultList.Select(x => x.User).Distinct().Count();
             return result;
         }
     }

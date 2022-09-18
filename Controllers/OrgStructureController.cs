@@ -60,16 +60,9 @@ namespace OnlyVacancyApp.Controllers
 
 
         [HttpGet("department/countinfo")]
-        public async Task<ActionResult<DepartmentCountInfo>> GetCountInfo(string depName = "Отдел разработки мобильных приложений")
+        public async Task<ActionResult<DepartmentCountInfo>> GetCountInfoAsync(string depName = "Отдел разработки мобильных приложений")
         {
-            try
-            {
-                return Ok(await _service2.GetInfoAsync(depName));
-            }
-            catch(Exception ex)
-            {
-                throw;
-            }
+            return Ok(await _service2.GetInfoAsync(depName));
         }
     }
 }
